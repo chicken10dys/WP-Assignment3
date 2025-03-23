@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 3 | INSERT NAME HERE</title>
+
+    <script>
+        window.addEventListener("DOMContentLoaded",()=>{
+            const form = document.getElementById("form");
+            const type = document.getElementById("type");
+            const name = document.getElementById("name");
+            const month = document.getElementById("month");
+            const color = document.getElementById("color");
+
+
+            console.log(localStorage.name);
+
+            type.value = localStorage.getItem("type");
+            name.value = localStorage.getItem("name");
+            color.value = localStorage.getItem("color");
+            month.value = localStorage.getItem("month");
+
+            // if (localStorage) {
+            //     if (name != undefined)
+            //         name.value = localStorage.name;
+            //     if (color != undefined)
+            //         color.value = localStorage.color;
+            //     if (month != undefined)
+            //         month.value = localStorage.month;
+
+                
+            // }
+            // else{
+
+            // }
+
+
+
+            
+            form.addEventListener("submit",e=>{
+                console.log("Submit was pressed");
+                e.preventDefault();
+                if (localStorage) {
+                    // localStorage.name = name.value;
+                    // localStorage.color = color.value;
+                    // localStorage.month = month.value;
+
+                    localStorage.setItem("type",type.value);
+                    localStorage.setItem("name",name.value);
+                    localStorage.setItem("color",color.value);
+                    localStorage.setItem("month",month.value);
+                }
+                else{
+                    
+                }
+
+                const message = document.createElement("p");
+                message.textContent = "Generate me a " + type.value + " named " + name.value + " born in " + month.value + " that is hex colour " + color.value;
+
+                document.body.appendChild(message);
+
+                console.log("test" + message.innerText);
+                              
+            })
+
+
+        })
+    </script>
+</head>
+<body>
+    <form action="" id ="form"  method="get">
+        <table>
+            <tr>
+                <td>
+                    <p>Enter a type of animal</p>
+                </td>
+                <td>
+                    <input type="text" placeholder="Type of animal" name="type" id="type">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>Enter a name</p>
+                </td>
+                <td>
+                    <input type="text" placeholder="Name the animal" name="name" id="name">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>What month were you born</p>
+                </td>
+                <td>
+                    <select name="month" id="month">
+                        <option>Janurary</option>
+                        <option>Feburary</option>
+                        <option>March</option>
+                        <option>April</option>
+                        <option>May</option>
+                        <option>June</option>
+                        <option>July</option>
+                        <option>August</option>
+                        <option>September</option>
+                        <option>October</option>
+                        <option>November</option>
+                        <option>December</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>What is your favourite color</p>
+                </td>
+                <td>
+                    <input type="color" name="color" checked id="color">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" value="Generate"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+    
+</body>
+</html>
