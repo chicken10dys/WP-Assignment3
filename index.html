@@ -6,67 +6,118 @@
     <title>Assignment 3 | Magical Animal Generator</title>
 
     <script>
-        window.addEventListener("DOMContentLoaded",()=>{
+        window.addEventListener("DOMContentLoaded",() => {
+            // fetching tags and storing them in variables
             const form = document.getElementById("form");
             const type = document.getElementById("type");
             const name = document.getElementById("name");
             const month = document.getElementById("month");
             const color = document.getElementById("color");
+          
+
+            // this creates an error element below a given 
+            const createErrorElement = (element, errorMessage)=>{
+                // create a tag for value errors
+                const valueError = document.createElement("h4");
+                valueError.className = "warn";
+                valueError.innerText = errorMessage;
+                element.insertAdjacentElement("afterend", valueError);
+            }
+            
+            // this removes an errror element
+            const removeErrorElement = element=>{
+                const errorElement = element.nextElementSibling;
+                if (errorElement && errorElement.classList.contains("warn")) {
+                    errorElement.remove();
+                }
+            }
+
+            // this adds an error tag to an element
+            const errorCheck = (element, regex, errorMessage)=>{
+                // remove previous errors before checking
+                removeErrorElement(element);
+
+                // if doesn't match, add the warning tag and return true
+                if (!(regex.test(element.value))) {                  
+                    createErrorElement(element, errorMessage);
+                    return true
+                }
+                // if matches, remove it and return false
+                else {
+                    removeErrorElement(element);
+                    return false
+                }
+            }
 
 
-            console.log(localStorage.name);
-
+            // if values are in storage, this will fill them out
             type.value = localStorage.getItem("type");
             name.value = localStorage.getItem("name");
             color.value = localStorage.getItem("color");
             month.value = localStorage.getItem("month");
 
-            // if (localStorage) {
-            //     if (name != undefined)
-            //         name.value = localStorage.name;
-            //     if (color != undefined)
-            //         color.value = localStorage.color;
-            //     if (month != undefined)
-            //         month.value = localStorage.month;
-
-                
-            // }
-            // else{
-
-            // }
-
-
-
-            
-            form.addEventListener("submit",e=>{
-                console.log("Submit was pressed");
+            // event for when the "Submit button is pressed"
+            form.addEventListener("submit",e => {
+                // prevent tab reloading
                 e.preventDefault();
+                
+                // error checking
+                var error = false;
+
+                // type can be letters
+                if ( errorCheck(type, /^[a-zA-Z]+$/, "Invalid type") )
+                    error = true;
+
+                // name can be letters, single quotes, and dashes
+                if ( errorCheck(name, /^[a-zA-Z-']+$/, "Invalid name") )
+                    error = true;
+
+                // abort if errors have been found
+                if (error) return;
+                
+
+                // check if local storage is available
                 if (localStorage) {
-                    // localStorage.name = name.value;
-                    // localStorage.color = color.value;
-                    // localStorage.month = month.value;
-
-                    localStorage.setItem("type",type.value);
-                    localStorage.setItem("name",name.value);
-                    localStorage.setItem("color",color.value);
-                    localStorage.setItem("month",month.value);
-                }
-                else{
-                    
+                    // update values in storage
+                    localStorage.setItem("type", type.value);
+                    localStorage.setItem("name", name.value);
+                    localStorage.setItem("color", color.value);
+                    localStorage.setItem("month", month.value);
+                } else {
+                    // if no local storage, display a warning message
+                    createErrorElement(document.body,
+                        "Local storage is not available. Your progress will be lost on exit");
                 }
 
+                // make a paragraph to be copied and pasted
                 const message = document.createElement("p");
-                message.textContent = "Generate me a " + type.value + " named " + name.value + " born in " + month.value + " that is hex colour " + color.value;
 
+                // compose the content
+                message.textContent = "Generate me a " + type.value +
+                    " named " + name.value + " born in " + month.value +
+                    " that is hex colour " + color.value;
+
+                // add to body
                 document.body.appendChild(message);
-
-                console.log("test" + message.innerText);
-                              
             })
 
 
         })
     </script>
+    <style>
+        .warn { /* style for error warnings */
+            display: block;
+            background-color: yellow;
+            padding-left: 30px;
+            padding-right: 30px;
+            margin: 0;
+            width: 50%;
+            font-size: 22px;
+            border-radius: 15px;
+            text-align: center;
+
+        }
+    </style>
 </head>
 <body>
     <form action="" id ="form"  method="get">
@@ -93,8 +144,8 @@
                 </td>
                 <td>
                     <select name="month" id="month">
-                        <option>Janurary</option>
-                        <option>Feburary</option>
+                        <option>January</option>
+                        <option>February</option>
                         <option>March</option>
                         <option>April</option>
                         <option>May</option>
