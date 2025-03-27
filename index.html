@@ -76,6 +76,10 @@
                 if ( errorCheck(name, /^[a-zA-Z-']+$/, "Invalid name") )
                     error = true;
 
+                // material can be letters, single quotes, and dashes
+                if ( errorCheck(material, /^[a-zA-Z-']+$/, "Invalid material") )
+                    error = true;
+
                 // abort if errors have been found
                 if (error) return;
                 
